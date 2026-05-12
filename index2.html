@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ubaid Bakhtiar | Portfolio</title>
+
+  <link rel="shortcut icon" href="images/umd-logo.jpg">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Playfair+Display:400,700">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+
+  <style>
+    :root {
+      --bg: #f7f9fc;
+      --text: #1f2a44;
+      --muted: #5f6b82;
+      --accent: #2f70ff;
+      --card: #ffffff;
+      --shadow: 0 10px 30px rgba(31, 42, 68, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .site-header {
+      background: #fff;
+      border-bottom: 1px solid #e7ecf3;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .site-header .nav-link {
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .site-header .nav-link:hover {
+      color: var(--text);
+    }
+
+    .hero {
+      padding: 4rem 0 3rem;
+    }
+
+    .hero-card {
+      background: var(--card);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .hero img {
+      width: 220px;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 14px;
+    }
+
+    .hero h1 {
+      margin: 0 0 0.5rem;
+      font-family: "Playfair Display", serif;
+      font-size: 2rem;
+    }
+
+    .hero p {
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+
+    .socials a {
+      margin-right: 0.9rem;
+      font-size: 1.1rem;
+      color: var(--text);
+    }
+
+    .section {
+      padding: 1rem 0 3rem;
+    }
+
+    .section h2 {
+      font-family: "Playfair Display", serif;
+      margin-bottom: 1rem;
+    }
+
+    .card-clean {
+      background: var(--card);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      padding: 1.25rem;
+      height: 100%;
+    }
+
+    .project-thumb {
+      width: 100%;
+      height: 170px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 0.8rem;
+      border: 1px solid #edf1f7;
+    }
+
+    .project-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    footer {
+      padding: 2rem 0 2.5rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 768px) {
+      .hero-card {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .hero img {
+        margin: 0 auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar navbar-expand-lg navbar-light px-0">
+        <a class="navbar-brand font-weight-bold" href="#top">Ubaid Bakhtiar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
+            <li class="nav-item"><a class="nav-link" href="#publications">Publications</a></li>
+            <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container">
+        <div class="hero-card">
+          <img src="images/Ubaid Bakhtiar.jpg" alt="Ubaid Bakhtiar portrait">
+          <div>
+            <h1>Ubaid Bakhtiar</h1>
+            <p>
+              Electrical and Computer Engineering Ph.D. Candidate at the University of Maryland, College Park.
+              Research focus: sparse computing, architecture-aware acceleration, and efficient CPU/GPU/FPGA systems.
+            </p>
+            <p>
+              <a href="assets/resume/resume.pdf">Download CV</a>
+            </p>
+            <div class="socials">
+              <a href="mailto:ubaidb@umd.edu" aria-label="Email"><i class="fas fa-envelope"></i></a>
+              <a href="https://www.linkedin.com/in/ubaid-bakhtiar/" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+              <a href="https://scholar.google.com/citations?user=c3a3Z8QAAAAJ&hl=en" aria-label="Google Scholar"><i class="fas fa-graduation-cap"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <div class="container">
+        <h2>About</h2>
+        <div class="card-clean">
+          <p class="mb-2">
+            I am a researcher in the Computer Architecture and Systems Lab (CASL), advised by
+            <a href="https://www.cs.umd.edu/~bahar/">Dr. Bahar Asgari</a>.
+            My work focuses on improving performance and resource utilization for sparse applications.
+          </p>
+          <p class="mb-0">
+            Interests: Computer Architecture, Domain-Specific Accelerators, GPU Architecture, Scientific Computing, and Heterogeneous Systems.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="section">
+      <div class="container">
+        <h2>Selected Projects</h2>
+        <div class="row">
+          <div class="col-md-6 col-lg-4 mb-4">
+            <article class="card-clean">
+              <img class="project-thumb" src="images/portfolio/Acamar_architecture.png" alt="Acamar architecture">
+              <p class="project-title"><a href="https://ieeexplore.ieee.org/document/10764642">Acamar</a></p>
+            </article>
+          </div>
+          <div class="col-md-6 col-lg-4 mb-4">
+            <article class="card-clean">
+              <img class="project-thumb" src="images/portfolio/Chason_architecture.png" alt="Chason architecture">
+              <p class="project-title"><a href="assets/projects/Chason_MICRO.pdf">Chason</a></p>
+            </article>
+          </div>
+          <div class="col-md-6 col-lg-4 mb-4">
+            <article class="card-clean">
+              <img class="project-thumb" src="images/portfolio/Pipirima_architecture.png" alt="Pipirima architecture">
+              <p class="project-title"><a href="assets/projects/Piprima_DAC.pdf">Pipirima</a></p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="publications" class="section">
+      <div class="container">
+        <h2>Recent Publications</h2>
+        <div class="card-clean">
+          <p class="mb-2">
+            <strong>Acamar</strong> — MICRO 2024
+            [<a href="assets/projects/Acamar_MICRO.pdf">pdf</a>]
+          </p>
+          <p class="mb-2">
+            <strong>Chason</strong> — MICRO 2025
+            [<a href="assets/projects/Chason_MICRO.pdf">pdf</a>]
+          </p>
+          <p class="mb-0">
+            <strong>Pipirima</strong> — DAC 2025
+            [<a href="assets/projects/Piprima_DAC.pdf">pdf</a>]
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="container">
+        <h2>Contact</h2>
+        <div class="card-clean">
+          <p class="mb-1"><a href="mailto:ubaidb@umd.edu">ubaidb@umd.edu</a></p>
+          <p class="mb-1">Brendan Iribe Center for Computer Science and Engineering</p>
+          <p class="mb-0">8125 Paint Branch Drive, College Park, MD 20742</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      Built with existing local assets and a clean single-page layout.
+    </div>
+  </footer>
+
+  <script src="lib/jquery/jquery.min.js"></script>
+  <script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

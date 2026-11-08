@@ -1,7 +1,8 @@
 # CLAUDE.md
 
-Context for Claude Code working in this repo. `README.md` is the human-facing
-guide to editing content; this file is about the code and its constraints.
+Context for Claude Code working in this repo: the code, its conventions and its
+constraints. There is no README — it was removed deliberately, so don't add one
+back without being asked.
 
 ## What this is
 

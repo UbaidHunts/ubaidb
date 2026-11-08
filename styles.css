@@ -1,0 +1,2281 @@
+/* ═══════════════════════════════════════════════════════════════
+   Design tokens. Change colours and type here, not further down.
+   ═══════════════════════════════════════════════════════════════ */
+:root {
+  /* desk = the dark background. paper = the cards sitting on it. */
+  --desk: oklch(21% 0.009 55);
+  --desk-raised: oklch(26% 0.011 55);
+  --chalk: oklch(93% 0.012 82);
+  --chalk-muted: oklch(75% 0.014 78);
+  --chalk-faint: oklch(64% 0.012 74);
+  --chalk-line: oklch(93% 0.012 82 / 0.14);
+
+  --paper: oklch(93% 0.028 82);
+  --paper-light: oklch(96% 0.02 85);
+  --paper-grey: oklch(86% 0.008 90);
+  --paper-kraft: oklch(80% 0.042 68);
+
+  --ink: oklch(24% 0.02 55);
+  --ink-muted: oklch(38% 0.021 55);
+  --ink-faint: oklch(50% 0.019 58);
+
+  --rule: oklch(68% 0.075 248); /* the blue line on ruled paper */
+  --grid: oklch(74% 0.026 244); /* graph paper grid */
+
+  /* Yellow #F9DA5B. "bright" is for text on the dark desk; "deep" is the only
+     one legible as text or a button fill on light paper. */
+  --accent: oklch(89% 0.147 95);
+  --accent-bright: oklch(93% 0.135 96);
+  --accent-deep: oklch(46% 0.095 95);
+
+  /* A genuinely brown brown. --desk is only 0.009 chroma, so it reads as
+     near-black rather than brown when used as text or a button fill. */
+  --brown: oklch(41% 0.075 55);
+  --brown-light: oklch(48% 0.08 56);
+
+  --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --font-marker: "Gochi Hand", "Bradley Hand", cursive;
+
+  --text-name: clamp(2.4rem, 1.5rem + 3.6vw, 4rem);
+  --text-hero: clamp(1.9rem, 1.25rem + 2.6vw, 3.1rem);
+  --text-page: clamp(2.1rem, 1.3rem + 3.2vw, 3.6rem);
+  --text-section: clamp(1.75rem, 1.15rem + 2.5vw, 2.9rem);
+  --text-card: clamp(1.3rem, 1.1rem + 0.9vw, 1.7rem);
+  --text-belief: clamp(1.4rem, 1.1rem + 1.4vw, 2rem);
+  --text-lede: clamp(1.05rem, 0.98rem + 0.42vw, 1.3rem);
+  --text-body: clamp(0.975rem, 0.95rem + 0.12vw, 1.05rem);
+  --text-micro: 0.72rem;
+
+  --rule-pitch: 1.75rem; /* line spacing on ruled paper */
+  --radius-sheet: 0.4rem;
+  --radius-tag: 0.3rem;
+  --shadow-rest: 0 1px 2px oklch(0% 0 0 / 0.3), 0 14px 32px -16px oklch(0% 0 0 / 0.55);
+  --shadow-lift: 0 2px 4px oklch(0% 0 0 / 0.32), 0 26px 50px -18px oklch(0% 0 0 / 0.6);
+
+  --ease-settle: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --shell: 72rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Base
+   ═══════════════════════════════════════════════════════════════ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--desk);
+  background-image: radial-gradient(130% 80% at 50% -10%, var(--desk-raised) 0%, transparent 62%);
+  background-attachment: fixed;
+  color: var(--chalk);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  text-wrap: balance;
+}
+
+p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+ul,
+ol,
+dl,
+dd,
+dt {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration-color: color-mix(in oklab, currentColor 40%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  transition: color 0.16s var(--ease-settle);
+}
+
+a:hover {
+  color: var(--accent-bright);
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+section[id],
+:target {
+  scroll-margin-top: 5.5rem;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-bright);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.shell {
+  width: 100%;
+  max-width: var(--shell);
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+@media (min-width: 40rem) {
+  .shell {
+    padding-inline: 2rem;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Type utilities
+   ═══════════════════════════════════════════════════════════════ */
+.mono-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-micro);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.5;
+}
+
+.marker {
+  font-family: var(--font-marker);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+.skip-link {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 100;
+  padding: 0.5rem 0.9rem;
+  border-radius: var(--radius-tag);
+  background-color: var(--accent-deep);
+  color: var(--paper-light);
+  text-decoration: none;
+  transform: translateY(-250%);
+}
+
+.skip-link:focus-visible {
+  transform: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Paper sheets — the core surface treatment
+   ═══════════════════════════════════════════════════════════════ */
+.paper {
+  position: relative;
+  border-radius: var(--radius-sheet);
+  background-color: var(--paper);
+  color: var(--ink);
+  box-shadow: var(--shadow-rest);
+}
+
+.paper--light {
+  background-color: var(--paper-light);
+}
+
+.paper--grey {
+  background-color: var(--paper-grey);
+}
+
+.paper--kraft {
+  background-color: var(--paper-kraft);
+}
+
+.paper--ruled {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0 calc(var(--rule-pitch) - 1px),
+    color-mix(in oklab, var(--rule) 46%, transparent) calc(var(--rule-pitch) - 1px) var(--rule-pitch)
+  );
+  background-position: 0 0.5rem;
+}
+
+.paper--graph {
+  background-image: repeating-linear-gradient(
+      to right,
+      color-mix(in oklab, var(--grid) 32%, transparent) 0 1px,
+      transparent 1px 22px
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--grid) 32%, transparent) 0 1px,
+      transparent 1px 22px
+    );
+}
+
+/* Snap text onto the ruled lines so the sheet reads as real paper. */
+.rule-flow :is(p, dd, dt, li, summary) {
+  line-height: var(--rule-pitch);
+}
+
+/* Masking-tape strips */
+.tape {
+  position: absolute;
+  width: 4.5rem;
+  height: 1.3rem;
+  background-color: color-mix(in oklab, var(--paper-light) 55%, transparent);
+  box-shadow: inset 0 0 0 1px oklch(100% 0 0 / 0.18);
+  pointer-events: none;
+}
+
+.tape--tl {
+  top: -0.6rem;
+  left: -0.9rem;
+  rotate: -7deg;
+}
+
+.tape--tc {
+  top: -0.65rem;
+  left: 50%;
+  translate: -50% 0;
+  rotate: 2.5deg;
+}
+
+.tape--br {
+  bottom: -0.6rem;
+  right: -0.8rem;
+  rotate: -5deg;
+}
+
+/* Real images sitting on a paper sheet get the same inset as a slot would. */
+.collage-item img,
+.work-card__figure img,
+.hobby__figure img,
+.photo img,
+.prose figure img {
+  border-radius: calc(var(--radius-sheet) - 0.1rem);
+}
+
+/* Diagrams exported with transparency need an opaque backing so a ruled or
+   graph sheet does not show through the figure's own labels. */
+.work-card__figure img,
+.hobby__figure img,
+.prose figure img {
+  background-color: oklch(99% 0.004 85);
+}
+
+/* Placeholder image slots. Swap for <img> when you have real assets. */
+.placeholder-asset {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: calc(var(--radius-sheet) - 0.1rem);
+  color: color-mix(in oklab, var(--ink) 80%, transparent);
+  background-color: oklch(24% 0.02 55 / 0.07);
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent 0 7px,
+    oklch(24% 0.02 55 / 0.07) 7px 8px
+  );
+  text-align: center;
+}
+
+.placeholder-asset[data-ground="desk"] {
+  border: 1.5px dashed var(--chalk-line);
+  color: var(--chalk-faint);
+  background-color: transparent;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent 0 7px,
+    var(--chalk-line) 7px 8px
+  );
+}
+
+/* Tags */
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.tag {
+  display: inline-block;
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-tag);
+  background-color: color-mix(in oklab, var(--accent) 45%, transparent);
+  color: oklch(36% 0.075 95);
+  font-family: var(--font-mono);
+  font-size: var(--text-micro);
+  line-height: 1.6;
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 0.6rem 1.15rem;
+  border-radius: var(--radius-tag);
+  font-family: var(--font-mono);
+  font-size: var(--text-micro);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background-color 0.16s var(--ease-settle), border-color 0.16s var(--ease-settle),
+    color 0.16s var(--ease-settle);
+}
+
+/* A yellow accent wants a bright fill with dark text, not the reverse. */
+.btn--solid {
+  background-color: var(--accent);
+  color: var(--ink);
+  border: 1px solid transparent;
+}
+
+.btn--solid:hover {
+  background-color: var(--accent-bright);
+  color: var(--ink);
+}
+
+.btn--ghost {
+  border: 1px solid var(--chalk-line);
+  color: var(--chalk-muted);
+}
+
+.btn--ghost:hover {
+  border-color: var(--accent-bright);
+  color: var(--chalk);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Nav
+   ═══════════════════════════════════════════════════════════════ */
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-bottom: 1px solid transparent;
+  background-color: color-mix(in oklab, var(--desk) 82%, transparent);
+  backdrop-filter: blur(10px);
+  transition: border-color 0.2s var(--ease-settle), background-color 0.2s var(--ease-settle);
+}
+
+.site-nav[data-scrolled="true"] {
+  border-bottom-color: var(--chalk-line);
+  background-color: color-mix(in oklab, var(--desk) 94%, transparent);
+}
+
+.site-nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 3.75rem;
+}
+
+.site-nav__name {
+  font-size: 1.3rem;
+  text-decoration: none;
+  color: var(--chalk);
+}
+
+.site-nav__links {
+  display: flex;
+  gap: clamp(0.65rem, 2vw, 1.6rem);
+}
+
+.nav-link {
+  position: relative;
+  display: inline-block;
+  padding-block: 0.4rem;
+  color: var(--chalk-faint);
+  text-decoration: none;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 1.5px;
+  border-radius: 2px;
+  background-color: var(--accent-bright);
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: opacity 0.14s linear, transform 0.3s var(--ease-settle);
+}
+
+.nav-link:hover,
+.nav-link[aria-current] {
+  color: var(--chalk);
+}
+
+.nav-link:hover::after,
+.nav-link[aria-current]::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+/* Separates in-page section links from other-page links. */
+.nav-divider {
+  width: 1px;
+  align-self: stretch;
+  margin-block: 0.5rem;
+  background-color: var(--chalk-line);
+}
+
+/* Drop the lower-priority labels, then let what is left wrap onto a second
+   row rather than overflow the viewport. */
+@media (max-width: 46rem) {
+  .site-nav__links li[data-optional],
+  .nav-divider {
+    display: none;
+  }
+
+  .site-nav__inner {
+    flex-wrap: wrap;
+    row-gap: 0;
+    padding-bottom: 0.5rem;
+  }
+
+  .site-nav__links {
+    flex-wrap: wrap;
+    row-gap: 0;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Hero
+   ═══════════════════════════════════════════════════════════════ */
+.hero {
+  padding-block: clamp(1.5rem, 2.5vw, 2.25rem) clamp(2rem, 3.5vw, 3rem);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Hero on ruled paper — the same sheet as the Chasoň research
+   card, run full-bleed behind the introduction. Every child
+   colour flips to ink, since the defaults assume the dark desk.
+   ───────────────────────────────────────────────────────────── */
+.hero--paper {
+  background-color: var(--paper);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0 calc(var(--rule-pitch) - 1px),
+    color-mix(in oklab, var(--rule) 26%, transparent) calc(var(--rule-pitch) - 1px)
+      var(--rule-pitch)
+  );
+  color: var(--ink);
+}
+
+.hero--paper .hero__name,
+.hero--paper .hero__statement {
+  color: var(--ink);
+}
+
+/* The rule lines cut through the text, so everything on the sheet is a weight
+   heavier and a shade darker than it would be on the dark desk. */
+.hero--paper .hero__role,
+.hero--paper .hero__meta-key {
+  color: var(--ink-muted);
+  font-weight: 500;
+}
+
+.hero--paper .hero__lede,
+.hero--paper .hero__meta,
+.hero--paper .hero__seeking {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.hero--paper .hero__statement,
+.hero--paper .hero__meta {
+  border-top-color: color-mix(in oklab, var(--ink) 22%, transparent);
+}
+
+.hero--paper a {
+  color: var(--ink);
+  text-decoration-color: color-mix(in oklab, var(--accent-deep) 55%, transparent);
+}
+
+.hero--paper a:hover {
+  color: var(--accent-deep);
+}
+
+/* Emphasis is the page's own brown rather than the accent — on cream the
+   yellow needed a highlighter behind it to be visible at all. */
+/* The marker hand, same as the nav wordmark. Gochi Hand's cap height sits
+   below Fraunces's at the same size, so it needs a nudge to look level. */
+.hero--paper .hero__statement em {
+  font-family: var(--font-marker);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.12em;
+  color: var(--brown);
+}
+
+/* Both buttons are solid brown with bold white type on the sheet. */
+.hero--paper .btn--solid,
+.hero--paper .btn--ghost {
+  background-color: var(--brown);
+  border-color: transparent;
+  color: oklch(100% 0 0);
+  font-weight: 700;
+}
+
+.hero--paper .btn--solid:hover,
+.hero--paper .btn--ghost:hover {
+  background-color: var(--brown-light);
+  border-color: transparent;
+  color: oklch(100% 0 0);
+}
+
+.hero--paper .tape {
+  background-color: color-mix(in oklab, var(--ink) 10%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--ink) 8%, transparent);
+}
+
+/* The nav is in normal flow above the hero, so at rest it has to carry the
+   sheet colour itself or the dark body shows through above the paper. */
+.has-paper-top .site-nav[data-past-hero="false"] {
+  background-color: var(--paper);
+  backdrop-filter: none;
+}
+
+/* The hero already shows the name at full size, so the wordmark stays hidden
+   until the hero has scrolled away. Keyed on an explicit "false" rather than
+   :not(...="true") so that with JS off — attribute never set — neither the
+   light nav nor the hidden name applies, and the defaults hold. */
+.site-nav__name {
+  transition: opacity 0.22s var(--ease-settle), visibility 0.22s var(--ease-settle);
+}
+
+.has-paper-hero .site-nav[data-past-hero="false"] .site-nav__name {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.has-paper-top .site-nav[data-past-hero="false"] .site-nav__name {
+  color: var(--ink);
+}
+
+.has-paper-top .site-nav[data-past-hero="false"] .nav-link {
+  color: var(--ink-faint);
+}
+
+.has-paper-top .site-nav[data-past-hero="false"] .nav-link:hover,
+.has-paper-top .site-nav[data-past-hero="false"] .nav-link[aria-current] {
+  color: var(--ink);
+}
+
+.has-paper-top .site-nav[data-past-hero="false"] .nav-link::after {
+  background-color: var(--accent-deep);
+}
+
+.has-paper-top .site-nav[data-past-hero="false"] .nav-divider {
+  background-color: color-mix(in oklab, var(--ink) 20%, transparent);
+}
+
+.hero__grid {
+  display: grid;
+  gap: clamp(2.5rem, 6vw, 4rem);
+  align-items: center;
+}
+
+@media (min-width: 60rem) {
+  .hero__grid {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.6fr);
+  }
+}
+
+/* Urdu and English side by side. They wrap to two lines rather than overflow
+   when the column gets tight, so the English name is never clipped. */
+.hero__name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 0.5em;
+  font-size: var(--text-name);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.hero__name-latin {
+  white-space: nowrap;
+}
+
+/* Scanned calligraphy, ink on paper. The scan's ground is warmer than this
+   sheet, so multiplying it straight leaves a visible tan patch: brightness
+   first clips that ground to white (which multiply then leaves untouched),
+   and contrast puts back the weight the lift took off the strokes. Sized in em
+   so it tracks the name, and nudged down because the ink sits high in the
+   frame — the strokes, not the image box, have to look level with the type. */
+.hero__name-urdu {
+  width: auto;
+  height: 1.5em;
+  flex: none;
+  translate: 0 0.08em;
+  filter: brightness(1.28) contrast(1.12);
+  mix-blend-mode: multiply;
+}
+
+.hero__role {
+  margin-top: 0.75rem;
+  color: var(--chalk-faint);
+}
+
+.hero__statement {
+  margin-top: 1.2rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--chalk-line);
+  color: var(--chalk);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--text-hero);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.hero__statement em {
+  font-style: italic;
+  color: var(--accent-bright);
+}
+
+.hero__lede {
+  max-width: 56ch;
+  text-wrap: balance;
+  margin-top: 1.1rem;
+  color: var(--chalk-muted);
+  font-size: var(--text-lede);
+  line-height: 1.55;
+}
+
+/* One labelled row per line: "RESEARCH AREA: value". */
+.hero__seeking {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  color: var(--chalk);
+  font-size: var(--text-lede);
+  font-style: italic;
+  font-weight: 500;
+}
+
+.seeking-icon {
+  width: 1.05em;
+  height: 1.05em;
+  flex: none;
+}
+
+.hero__meta {
+  display: grid;
+  gap: 0.4rem;
+  margin-top: 1.4rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--chalk-line);
+  color: var(--chalk-muted);
+}
+
+.hero__meta-key {
+  margin-right: 0.3rem;
+  color: var(--chalk-faint);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.4rem;
+}
+
+/* Desk collage. Currently a single pinned portrait. */
+.hero__collage {
+  position: relative;
+  display: grid;
+  gap: 1.25rem;
+  align-items: start;
+  justify-items: start;
+}
+
+.collage-item {
+  margin: 0;
+  padding: 0.6rem;
+}
+
+.collage-item--portrait {
+  max-width: 18rem;
+  rotate: -1.8deg;
+}
+
+.collage-item__caption {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  margin-top: 0.6rem;
+  color: var(--ink-muted);
+  font-size: 1.15rem;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.pin-icon {
+  width: 1.5em;
+  height: auto;
+  flex: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Section scaffolding
+   ═══════════════════════════════════════════════════════════════ */
+.section {
+  padding-block: clamp(3.5rem, 7vw, 6rem);
+  border-top: 1px solid var(--chalk-line);
+}
+
+.section-head {
+  max-width: 44ch;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+
+/* For a section that is one line of text, not a block of content — the full
+   section rhythm leaves it floating in an empty band. */
+.section--slim {
+  padding-block: clamp(1.4rem, 2.5vw, 2rem);
+}
+
+/* 44ch resolves against the body font, not the heading's, so a long heading
+   wraps. Opt out where the heading should hold one line. */
+.section-head--wide {
+  max-width: none;
+}
+
+.section-head__eyebrow {
+  color: var(--accent-bright);
+  margin-bottom: 0.75rem;
+}
+
+.section-head__heading {
+  font-size: var(--text-section);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+}
+
+.section-head__note {
+  margin-top: 1rem;
+  color: var(--chalk-faint);
+}
+
+/* A display-type subtitle under a marker heading — the same weight as the
+   section titles inside the hobby blocks. */
+/* Body copy inside a section header, when the intro is more than a line.
+   Runs the full width of the container — no measure cap. */
+.section-head__body {
+  margin-top: 1.1rem;
+  color: var(--chalk-muted);
+  line-height: 1.65;
+}
+
+.section-head__sub {
+  margin-top: 0.7rem;
+  color: var(--chalk);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--text-card);
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Research cards
+   ═══════════════════════════════════════════════════════════════ */
+.work-stack {
+  display: grid;
+  gap: clamp(2rem, 4vw, 3.5rem);
+}
+
+.work-card {
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  transition: box-shadow 0.3s var(--ease-settle), translate 0.3s var(--ease-settle);
+}
+
+.work-card:hover {
+  box-shadow: var(--shadow-lift);
+  translate: 0 -2px;
+}
+
+@media (min-width: 56rem) {
+  .work-card {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .work-card--flip .work-card__body {
+    order: 2;
+  }
+}
+
+.work-card__kicker {
+  color: var(--accent-deep);
+  margin-bottom: 0.5rem;
+}
+
+.work-card__title {
+  font-size: var(--text-card);
+  line-height: 1.15;
+}
+
+.work-card__summary {
+  margin-top: 0.75rem;
+  color: var(--ink-muted);
+  max-width: 54ch;
+}
+
+.field-grid {
+  display: grid;
+  gap: 1rem 1.75rem;
+  margin-top: 1.75rem;
+}
+
+@media (min-width: 30rem) {
+  .field-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.field dt {
+  color: var(--accent-deep);
+  margin-bottom: 0.15rem;
+}
+
+.field dd {
+  color: var(--ink-muted);
+  font-size: 0.95rem;
+}
+
+.work-card .tag-row {
+  margin-top: 1.75rem;
+}
+
+.work-card__figure {
+  margin: 0;
+}
+
+.work-card__figure figcaption {
+  margin-top: 0.6rem;
+  color: var(--ink-faint);
+}
+
+/* "How it works" disclosure */
+.detail {
+  margin-top: 1.5rem;
+  border-top: 1px dashed color-mix(in oklab, var(--ink) 25%, transparent);
+  padding-top: 1rem;
+}
+
+.detail summary {
+  cursor: pointer;
+  color: var(--accent-deep);
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.detail summary::-webkit-details-marker {
+  display: none;
+}
+
+.detail summary::before {
+  content: "+";
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.detail[open] summary::before {
+  content: "\2013";
+}
+
+.detail__body {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+  color: var(--ink-muted);
+  max-width: 62ch;
+}
+
+.detail__body a {
+  color: var(--accent-deep);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Publications
+   ═══════════════════════════════════════════════════════════════ */
+.pub-list {
+  display: grid;
+  gap: 0;
+  counter-reset: pub;
+}
+
+.pub {
+  display: grid;
+  gap: 0.4rem 2rem;
+  padding-block: 1.6rem;
+  border-top: 1px solid var(--chalk-line);
+}
+
+.pub:last-child {
+  border-bottom: 1px solid var(--chalk-line);
+}
+
+@media (min-width: 44rem) {
+  .pub {
+    grid-template-columns: 9.5rem minmax(0, 1fr);
+  }
+}
+
+.pub__venue {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.5rem;
+  padding-top: 0.35rem;
+  color: var(--chalk-faint);
+}
+
+@media (min-width: 44rem) {
+  .pub__venue {
+    display: block;
+  }
+}
+
+.pub__conf {
+  display: block;
+  color: var(--accent-bright);
+}
+
+.pub__place,
+.pub__year {
+  display: block;
+}
+
+/* Sized so even the longest title holds a single line on a wide screen.
+   Never truncate — these are full paper titles. */
+.pub__title {
+  font-size: 1rem;
+  line-height: 1.35;
+  font-weight: 500;
+  text-wrap: pretty;
+}
+
+/* The list gets a wider container than the rest of the page so the titles fit. */
+.section--wide .shell {
+  max-width: 82rem;
+}
+
+.pub__authors {
+  margin-top: 0.4rem;
+  color: var(--chalk-muted);
+  font-size: 0.95rem;
+}
+
+.pub__authors strong {
+  color: var(--chalk);
+  font-weight: 600;
+}
+
+.pub__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.7rem;
+}
+
+.pub__links a {
+  font-family: var(--font-mono);
+  font-size: var(--text-micro);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--chalk-faint);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in oklab, var(--accent) 45%, transparent);
+  padding-bottom: 1px;
+}
+
+.pub__links a:hover {
+  color: var(--accent-bright);
+  border-bottom-color: var(--accent-bright);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Experience timeline
+   ═══════════════════════════════════════════════════════════════ */
+.track {
+  display: grid;
+  gap: 0;
+  border-left: 1px solid var(--chalk-line);
+}
+
+.track__item {
+  position: relative;
+  display: grid;
+  gap: 0.35rem 2rem;
+  padding: 1.75rem 0 1.75rem 1.75rem;
+}
+
+.track__item::before {
+  content: "";
+  position: absolute;
+  top: 2.1rem;
+  left: -4px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--accent);
+}
+
+@media (min-width: 44rem) {
+  .track__item {
+    grid-template-columns: 9rem minmax(0, 1fr);
+  }
+}
+
+@media (min-width: 60rem) {
+  .track__item--logo {
+    grid-template-columns: 9rem minmax(0, 1fr) minmax(0, 12rem);
+  }
+}
+
+.track__when {
+  color: var(--chalk-faint);
+  padding-top: 0.3rem;
+}
+
+.track__role {
+  font-size: 1.2rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.track__org {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.5rem;
+  margin-top: 0.35rem;
+  color: var(--accent-bright);
+  font-size: 0.95rem;
+}
+
+/* Org logo in its own cell to the right of the entry, vertically centred
+   against the description. Both files are transparent, so no chip. Each is
+   capped at its native width to avoid visible upscaling. */
+.track__logo {
+  margin: 0;
+  display: grid;
+  place-items: center;
+  align-self: center;
+}
+
+.track__logo img {
+  width: 100%;
+  height: auto;
+}
+
+/* Amazon is vector and CASL is 640px wide, so both can run the full width of
+   the column without softening. */
+.track__logo img[src*="amazon"] {
+  max-width: 12rem;
+}
+
+.track__logo img[src*="casl"] {
+  max-width: 10rem;
+}
+
+.track__logo img[src*="Maryland"] {
+  max-width: 7.5rem;
+}
+
+/* A second degree inside the same entry — the UMD row covers both the PhD and
+   the MSc, so one seal sits centred against the pair. */
+.track__role--stacked {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--chalk-line);
+}
+
+.track__logo img[src*="lums"] {
+  max-width: 6.5rem;
+}
+
+.track__meta {
+  margin-top: 0.3rem;
+  color: var(--chalk-faint);
+  font-size: 0.9rem;
+}
+
+/* 56ch broke the Amazon note onto a third line holding two words. The entry's
+   middle grid column is wider than this cap, so there was room to spare. */
+.track__note {
+  margin-top: 0.5rem;
+  color: var(--chalk-muted);
+  max-width: 72ch;
+  text-wrap: balance;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Tools grid
+   ═══════════════════════════════════════════════════════════════ */
+/* Six tracks so the five groups tile exactly two rows: two halves on top,
+   three thirds below. Nothing is left over at the end of a row. */
+.stack-grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 40rem) {
+  .stack-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  .stack-group--half {
+    grid-column: span 6;
+  }
+
+  .stack-group--third {
+    grid-column: span 3;
+  }
+}
+
+@media (min-width: 64rem) {
+  .stack-group--half {
+    grid-column: span 3;
+  }
+
+  .stack-group--third {
+    grid-column: span 2;
+  }
+}
+
+.stack-group {
+  padding: 1.5rem 1.4rem;
+}
+
+.stack-group:nth-child(odd) {
+  rotate: -0.5deg;
+}
+
+.stack-group:nth-child(even) {
+  rotate: 0.6deg;
+}
+
+
+.stack-group__label {
+  margin-bottom: 1rem;
+  color: var(--ink);
+  font-size: 1.4rem;
+  font-weight: 400;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Two columns side by side on wide screens, stacked below
+   ═══════════════════════════════════════════════════════════════ */
+.two-col {
+  display: grid;
+  gap: clamp(2.5rem, 5vw, 4rem);
+  align-items: start;
+}
+
+@media (min-width: 64rem) {
+  .two-col {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Compact CV-style list — used by Awards and by Professional services
+   ═══════════════════════════════════════════════════════════════ */
+.detail-list {
+  display: grid;
+  gap: 0.95rem;
+  max-width: 70ch;
+}
+
+.detail-list li {
+  position: relative;
+  padding-left: 1.5rem;
+  color: var(--chalk-muted);
+}
+
+.detail-list li::before {
+  content: "\2013";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+}
+
+.detail-list strong {
+  color: var(--chalk);
+  font-weight: 600;
+}
+
+/* Venue and year drop to their own line under the entry name: mono, uppercase,
+   no underline. */
+.detail-list__meta {
+  display: block;
+  margin-top: 0.3rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-micro);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--chalk-faint);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Teaching & service
+   ═══════════════════════════════════════════════════════════════ */
+.small-grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+}
+
+.small-card {
+  padding: 1.5rem 1.4rem;
+  color: var(--ink-muted);
+}
+
+.small-card__title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.small-card__role {
+  margin: 0.35rem 0 0.75rem;
+  color: var(--accent-deep);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Approach
+   ═══════════════════════════════════════════════════════════════ */
+.beliefs {
+  display: grid;
+  gap: clamp(2rem, 4vw, 3rem);
+}
+
+.belief {
+  display: grid;
+  gap: 0.75rem 2.5rem;
+  padding-bottom: clamp(2rem, 4vw, 3rem);
+  border-bottom: 1px solid var(--chalk-line);
+}
+
+.beliefs .belief:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+@media (min-width: 52rem) {
+  .belief {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+.belief__statement {
+  font-size: var(--text-belief);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+.belief__detail {
+  color: var(--chalk-muted);
+  max-width: 52ch;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Contact
+   ═══════════════════════════════════════════════════════════════ */
+/* ─────────────────────────────────────────────────────────────
+   A section on the same ruled sheet as the hero. Colours flip to
+   ink, since the section defaults assume the dark desk.
+   ───────────────────────────────────────────────────────────── */
+.section--sheet {
+  border-top: 0;
+  background-color: var(--paper);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0 calc(var(--rule-pitch) - 1px),
+    color-mix(in oklab, var(--rule) 26%, transparent) calc(var(--rule-pitch) - 1px)
+      var(--rule-pitch)
+  );
+  color: var(--ink);
+}
+
+.section--sheet .section-head__eyebrow {
+  color: var(--accent-deep);
+}
+
+.section--sheet .section-head__heading {
+  color: var(--ink);
+}
+
+.section--sheet .contact__copy,
+.section--sheet .contact__lede {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.section--sheet .mono-label {
+  color: var(--ink-faint);
+}
+
+.section--sheet a {
+  color: var(--ink);
+}
+
+.section--sheet a:hover {
+  color: var(--accent-deep);
+}
+
+/* The three points share "peak"'s marker hand and brown. */
+.section--sheet .criteria li {
+  color: var(--brown);
+  font-family: var(--font-marker);
+  font-size: 1.45rem;
+  line-height: 1.35;
+  padding-left: 1.7rem;
+}
+
+.section--sheet .criteria li::before {
+  top: 0.62em;
+  background-color: var(--brown);
+}
+
+/* Four large marks instead of the note card. */
+/* Items must stretch to fill their tracks — justify-items: center would size
+   each box to its icon instead. */
+.contact__social {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1rem, 2.5vw, 1.5rem);
+  width: 100%;
+  max-width: 24rem;
+  justify-self: center;
+}
+
+.contact__social a {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: var(--radius-sheet);
+  color: var(--ink);
+  transition: background-color 0.18s var(--ease-settle), color 0.18s var(--ease-settle);
+}
+
+.contact__social a:hover {
+  background-color: var(--brown);
+  color: oklch(100% 0 0);
+}
+
+.contact__social .social-icon {
+  width: 46%;
+  height: 46%;
+}
+
+.contact__grid {
+  display: grid;
+  gap: clamp(2rem, 5vw, 3.5rem);
+  align-items: start;
+}
+
+@media (min-width: 56rem) {
+  .contact__grid {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+  }
+}
+
+.contact__copy {
+  display: grid;
+  gap: 1.25rem;
+  color: var(--chalk-muted);
+}
+
+.contact__lede {
+  font-size: var(--text-lede);
+  line-height: 1.55;
+  max-width: 52ch;
+}
+
+.contact__copy .section-head__heading {
+  margin-bottom: 0.5rem;
+}
+
+.criteria {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.criteria li {
+  position: relative;
+  padding-left: 1.4rem;
+  color: var(--chalk-muted);
+  font-size: var(--text-lede);
+  line-height: 1.5;
+}
+
+.criteria li::before {
+  content: "";
+  position: absolute;
+  top: 0.72em;
+  left: 0;
+  width: 0.6rem;
+  height: 1.5px;
+  background-color: var(--accent);
+}
+
+/* A centred note rather than a full-width panel — the email and icons do not
+   fill a whole column, which left a lot of empty sheet on the right. */
+.contact__card {
+  width: 100%;
+  max-width: 21rem;
+  justify-self: center;
+  padding: 2rem 1.75rem;
+  rotate: 1deg;
+  text-align: center;
+}
+
+.contact__card .contact__icons {
+  justify-content: center;
+}
+
+.contact__email {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 0.9rem + 1vw, 1.5rem);
+  font-weight: 600;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+.contact__email:hover {
+  color: var(--accent-deep);
+}
+
+.contact__icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  padding-top: 1.4rem;
+  border-top: 1px dashed color-mix(in oklab, var(--ink) 30%, transparent);
+}
+
+.contact__icons a {
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 50%;
+  background-color: color-mix(in oklab, var(--ink) 8%, transparent);
+  color: var(--ink);
+  transition: background-color 0.16s var(--ease-settle), color 0.16s var(--ease-settle);
+}
+
+.contact__icons a:hover {
+  background-color: var(--accent);
+  color: var(--ink);
+}
+
+.social-icon {
+  width: 1.35rem;
+  height: 1.35rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Footer
+   ═══════════════════════════════════════════════════════════════ */
+.site-footer {
+  border-top: 1px solid var(--chalk-line);
+}
+
+.site-footer__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  justify-content: center;
+  padding-block: 2.25rem;
+  text-align: center;
+}
+
+
+.site-footer__meta {
+  color: var(--chalk-faint);
+}
+
+
+
+
+/* ═══════════════════════════════════════════════════════════════
+   Subpage header  (beyond.html, blog.html, posts/*.html)
+   ═══════════════════════════════════════════════════════════════ */
+.page-header {
+  padding-block: clamp(2.75rem, 6vw, 5rem) clamp(2rem, 4vw, 3rem);
+}
+
+/* Same cream ruled sheet as the hero on index.html. */
+.page-header--paper {
+  background-color: var(--paper);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0 calc(var(--rule-pitch) - 1px),
+    color-mix(in oklab, var(--rule) 26%, transparent) calc(var(--rule-pitch) - 1px)
+      var(--rule-pitch)
+  );
+  color: var(--ink);
+}
+
+.page-header--paper .section-head__eyebrow {
+  color: var(--accent-deep);
+}
+
+.page-header--paper .page-header__title {
+  color: var(--ink);
+}
+
+/* The emphasised word takes the marker hand and brown, like "peak". */
+.page-header--paper .page-header__title em {
+  font-family: var(--font-marker);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.12em;
+  color: var(--brown);
+}
+
+.page-header--paper .lede {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.page-header__title {
+  font-size: var(--text-page);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+}
+
+.page-header__title em {
+  font-style: italic;
+  color: var(--accent-bright);
+}
+
+.lede {
+  max-width: 46ch;
+  margin-top: 1.25rem;
+  color: var(--chalk-muted);
+  font-size: var(--text-lede);
+  line-height: 1.55;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--chalk-faint);
+  text-decoration: none;
+}
+
+.back-link::before {
+  content: "\2190";
+}
+
+.back-link:hover {
+  color: var(--accent-bright);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   "Now" strip  — what you are currently into
+   ═══════════════════════════════════════════════════════════════ */
+.now-card {
+  display: grid;
+  gap: 1.25rem 2rem;
+  padding: clamp(1.4rem, 3vw, 2rem);
+  rotate: -0.6deg;
+}
+
+@media (min-width: 40rem) {
+  .now-card {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
+  }
+}
+
+.now-card dt {
+  color: var(--accent-deep);
+  margin-bottom: 0.2rem;
+}
+
+.now-card dd {
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.now-card dd span {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  font-weight: 400;
+  color: var(--ink-faint);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Hobby blocks  (beyond.html)
+   ═══════════════════════════════════════════════════════════════ */
+.hobby-stack {
+  display: grid;
+  gap: clamp(2.5rem, 5vw, 4.5rem);
+}
+
+.hobby {
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 3rem);
+  align-items: start;
+}
+
+@media (min-width: 56rem) {
+  .hobby {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .hobby--flip .hobby__copy {
+    order: 2;
+  }
+}
+
+.hobby__kicker {
+  color: var(--accent-bright);
+  margin-bottom: 0.6rem;
+}
+
+.hobby__title {
+  font-size: var(--text-card);
+  line-height: 1.15;
+}
+
+.hobby__copy > p {
+  margin-top: 1rem;
+  color: var(--chalk-muted);
+  max-width: 54ch;
+}
+
+.hobby__copy .tag-row {
+  margin-top: 1.5rem;
+}
+
+.hobby__copy .tag {
+  background-color: color-mix(in oklab, var(--accent) 22%, transparent);
+  color: oklch(93% 0.06 95);
+}
+
+.hobby__figure {
+  margin: 0;
+  padding: 0.6rem;
+}
+
+.hobby__figure figcaption {
+  margin-top: 0.5rem;
+  padding-inline: 0.2rem;
+  color: var(--ink-faint);
+}
+
+/* Never crop this one — narrow the whole frame instead, so the full photo
+   shows and its bottom still lands near the end of the text beside it. */
+@media (min-width: 56rem) {
+  .hobby__figure--fill {
+    max-width: 24rem;
+    /* flush right, so its edge lines up with the full-width banner below */
+    justify-self: end;
+  }
+}
+
+/* A full-width photo closing out a hobby section. */
+.hobby__banner {
+  margin: clamp(2rem, 4vw, 3rem) 0 0;
+  padding: 0.6rem;
+  rotate: -0.5deg;
+}
+
+.hobby__banner img,
+.hobby__banner video {
+  border-radius: calc(var(--radius-sheet) - 0.1rem);
+}
+
+.hobby__banner figcaption {
+  margin-top: 0.6rem;
+  padding-inline: 0.2rem;
+  color: var(--ink-faint);
+  text-align: center;
+}
+
+/* Marker-hand section heading, in the accent. */
+.section-head__heading--marker {
+  font-family: var(--font-marker);
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--accent);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Bookshelf  (beyond.html)
+   ═══════════════════════════════════════════════════════════════ */
+.shelf {
+  display: grid;
+  gap: clamp(1.75rem, 3vw, 2.5rem);
+}
+
+.shelf__group-label {
+  margin-bottom: 0.9rem;
+  color: var(--accent-bright);
+}
+
+.shelf__books {
+  display: grid;
+  gap: 0;
+}
+
+.book {
+  display: grid;
+  gap: 0.15rem 1.5rem;
+  padding-block: 0.9rem;
+  border-top: 1px solid var(--chalk-line);
+}
+
+.book:last-child {
+  border-bottom: 1px solid var(--chalk-line);
+}
+
+/* Takes run to a paragraph, so the two columns align at the top — baseline
+   alignment dropped the first line level with the bottom of the cover. The
+   left column is sized to the cover plus its two text lines and no wider, so
+   the take gets the whole remainder instead of a dead gap. */
+@media (min-width: 44rem) {
+  .book {
+    grid-template-columns: minmax(0, 19rem) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+/* Cover sits left of the title, no taller than the two text lines beside it. */
+.book__id {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.book__cover {
+  height: 6rem;
+  width: auto;
+  flex: none;
+  border-radius: 2px;
+  box-shadow: 0 1px 3px oklch(0% 0 0 / 0.5);
+}
+
+.book__title {
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.book__author {
+  color: var(--chalk-faint);
+  font-size: 0.9rem;
+}
+
+.book__take {
+  color: var(--chalk-muted);
+  font-size: 0.95rem;
+}
+
+.book__take em {
+  color: var(--accent-bright);
+  font-style: normal;
+  font-family: var(--font-mono);
+  font-size: var(--text-micro);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Photo wall  (beyond.html)
+   ═══════════════════════════════════════════════════════════════ */
+/* Small pinned snapshots, five across at full width. The photos are mixed
+   portrait and landscape and are never cropped — a labmate sits at the edge of
+   every frame — so the frames are different heights. Centring them keeps the
+   row from reading as a staircase; the markup alternates orientations so the
+   tall ones do not sit on an end. Raise the minmax for bigger, fewer per row. */
+.photo-wall {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+  align-items: center;
+}
+
+/* Lets one shot span the full width, if a group photo ever needs it. */
+.photo--wide {
+  grid-column: 1 / -1;
+}
+
+.photo {
+  margin: 0;
+  padding: 0.55rem;
+}
+
+.photo:nth-child(3n + 1) {
+  rotate: -1.2deg;
+}
+
+.photo:nth-child(3n + 2) {
+  rotate: 0.9deg;
+}
+
+.photo:nth-child(3n) {
+  rotate: -0.4deg;
+}
+
+.photo figcaption {
+  margin-top: 0.5rem;
+  color: var(--ink-faint);
+  text-align: center;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Post index  (blog.html)
+   ═══════════════════════════════════════════════════════════════ */
+.post-feature {
+  display: block;
+  padding: clamp(1.5rem, 3.5vw, 2.5rem);
+  rotate: -0.4deg;
+  color: var(--ink);
+  text-decoration: none;
+  transition: box-shadow 0.3s var(--ease-settle), translate 0.3s var(--ease-settle);
+}
+
+.post-feature:hover {
+  box-shadow: var(--shadow-lift);
+  translate: 0 -2px;
+  color: var(--ink);
+}
+
+.post-feature__kicker {
+  color: var(--accent-deep);
+}
+
+.post-feature__title {
+  margin-top: 0.6rem;
+  font-size: var(--text-card);
+  line-height: 1.15;
+}
+
+.post-feature:hover .post-feature__title {
+  color: var(--accent-deep);
+}
+
+.post-feature__excerpt {
+  margin-top: 0.9rem;
+  color: var(--ink-muted);
+  max-width: 58ch;
+}
+
+.post-feature__meta {
+  margin-top: 1.5rem;
+  color: var(--ink-faint);
+}
+
+.post-list {
+  display: grid;
+  gap: 0;
+}
+
+.post {
+  border-top: 1px solid var(--chalk-line);
+}
+
+.post:last-child {
+  border-bottom: 1px solid var(--chalk-line);
+}
+
+.post__link {
+  display: grid;
+  gap: 0.3rem 2rem;
+  padding-block: 1.75rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+@media (min-width: 44rem) {
+  .post__link {
+    grid-template-columns: 9rem minmax(0, 1fr);
+  }
+}
+
+.post__date {
+  color: var(--chalk-faint);
+  padding-top: 0.35rem;
+}
+
+.post__title {
+  font-size: 1.3rem;
+  font-weight: 500;
+  line-height: 1.25;
+  transition: color 0.16s var(--ease-settle);
+}
+
+.post__link:hover .post__title {
+  color: var(--accent-bright);
+}
+
+.post__excerpt {
+  margin-top: 0.5rem;
+  color: var(--chalk-muted);
+  max-width: 60ch;
+}
+
+.post__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.9rem;
+  color: var(--chalk-faint);
+}
+
+.post__meta .tag {
+  background-color: color-mix(in oklab, var(--accent) 20%, transparent);
+  color: oklch(92% 0.06 95);
+}
+
+.draft-note {
+  margin-top: clamp(2rem, 4vw, 3rem);
+  padding: 1.25rem 1.4rem;
+  border: 1px dashed var(--chalk-line);
+  border-radius: var(--radius-sheet);
+  color: var(--chalk-faint);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Article  (posts/*.html)
+   ═══════════════════════════════════════════════════════════════ */
+.article {
+  max-width: 46rem;
+  margin-inline: auto;
+}
+
+.article__header {
+  padding-block: clamp(2rem, 5vw, 3.5rem) clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.article__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  color: var(--chalk-faint);
+}
+
+.article__title {
+  margin-top: 1rem;
+  font-size: clamp(1.9rem, 1.3rem + 2.6vw, 3rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.article__dek {
+  margin-top: 1rem;
+  color: var(--chalk-muted);
+  font-size: var(--text-lede);
+  line-height: 1.5;
+  max-width: 50ch;
+}
+
+.article__sheet {
+  padding: clamp(1.5rem, 4vw, 3.25rem);
+}
+
+.article__footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: clamp(2rem, 4vw, 3rem);
+}
+
+/* Long-form prose. Everything inside .prose is styled by element. */
+.prose {
+  color: var(--ink-muted);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.prose > * + * {
+  margin-top: 1.4rem;
+}
+
+.prose h2 {
+  margin-top: 2.75rem;
+  color: var(--ink);
+  font-size: 1.55rem;
+  line-height: 1.2;
+}
+
+.prose h3 {
+  margin-top: 2rem;
+  color: var(--ink);
+  font-size: 1.2rem;
+  line-height: 1.3;
+}
+
+.prose strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.prose a {
+  color: var(--accent-deep);
+  text-decoration-color: color-mix(in oklab, var(--accent) 50%, transparent);
+}
+
+.prose ul,
+.prose ol {
+  display: grid;
+  gap: 0.5rem;
+  padding-left: 0.2rem;
+}
+
+.prose li {
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.prose ul > li::before {
+  content: "\2013";
+  position: absolute;
+  left: 0;
+  color: var(--accent-deep);
+}
+
+.prose ol {
+  counter-reset: prose-ol;
+}
+
+.prose ol > li {
+  counter-increment: prose-ol;
+}
+
+.prose ol > li::before {
+  content: counter(prose-ol) ".";
+  position: absolute;
+  left: 0;
+  color: var(--accent-deep);
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+}
+
+.prose blockquote {
+  padding-left: 1.2rem;
+  border-left: 2px solid var(--accent-deep);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.prose blockquote cite {
+  display: block;
+  margin-top: 0.6rem;
+  color: var(--ink-faint);
+  font-family: var(--font-mono);
+  font-size: var(--text-micro);
+  font-style: normal;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.prose code {
+  padding: 0.12em 0.36em;
+  border-radius: 3px;
+  background-color: color-mix(in oklab, var(--ink) 9%, transparent);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+}
+
+.prose pre {
+  margin-block: 0;
+  padding: 1.1rem 1.2rem;
+  border-radius: var(--radius-sheet);
+  background-color: var(--desk);
+  color: var(--chalk);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  line-height: 1.65;
+  overflow-x: auto;
+}
+
+.prose pre code {
+  padding: 0;
+  background: none;
+  color: inherit;
+  font-size: inherit;
+}
+
+.prose figure {
+  margin: 2rem 0;
+}
+
+.prose figcaption {
+  margin-top: 0.6rem;
+  color: var(--ink-faint);
+  font-family: var(--font-mono);
+  font-size: var(--text-micro);
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.prose hr {
+  margin-block: 2.5rem;
+  border: 0;
+  border-top: 1px dashed color-mix(in oklab, var(--ink) 28%, transparent);
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.prose th,
+.prose td {
+  padding: 0.55rem 0.7rem;
+  border-bottom: 1px solid color-mix(in oklab, var(--ink) 15%, transparent);
+  text-align: left;
+}
+
+.prose th {
+  color: var(--accent-deep);
+  font-family: var(--font-mono);
+  font-size: var(--text-micro);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.prose .footnotes {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid color-mix(in oklab, var(--ink) 20%, transparent);
+  font-size: 0.9rem;
+}
+
+.prose .footnotes li {
+  color: var(--ink-faint);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Scroll reveal
+   ═══════════════════════════════════════════════════════════════ */
+.reveal[data-reveal="pending"] {
+  opacity: 0;
+  transform: translateY(1.5rem);
+}
+
+.reveal[data-reveal="shown"] {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.42s ease-out, transform 0.68s var(--ease-settle);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .reveal[data-reveal="pending"] {
+    opacity: 1;
+    transform: none;
+  }
+
+  .collage-item,
+  .stack-group,
+  .contact__card,
+  .now-card,
+  .hobby__banner,
+  .post-feature,
+  .photo,
+  .tape {
+    rotate: 0deg;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Print — makes the page a usable one-pager
+   ═══════════════════════════════════════════════════════════════ */
+@media print {
+  body {
+    background: #fff;
+    color: #000;
+  }
+
+  .site-nav,
+  .hero__collage,
+  .hero__actions,
+  .skip-link {
+    display: none;
+  }
+
+  .paper {
+    box-shadow: none;
+    border: 1px solid #ccc;
+    rotate: 0deg;
+  }
+
+  .detail {
+    display: none;
+  }
+}
